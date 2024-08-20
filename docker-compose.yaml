@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  korter_db:
+    image: postgres:14.8-bullseye
+    container_name: korter_db
+    environment:
+      POSTGRES_USER: korter
+      POSTGRES_PASSWORD: korter
+      POSTGRES_DB: korter
+    volumes:
+      - pgdata:/pgdata
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    ports:
+      - 5050:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=korter@bi.group
+      - PGADMIN_DEFAULT_PASSWORD=korter
+    volumes:
+      - pgadmin:/pgadmin
+    depends_on:
+      - korter_db
+
+volumes:
+  pgdata:
+  pgadmin:
